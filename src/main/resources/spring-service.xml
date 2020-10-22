@@ -10,10 +10,10 @@
     <!-- 扫描service相关的bean -->
     <context:component-scan base-package="com.hjj.service" />
 
-    <!--BookServiceImpl注入到IOC容器中-->
+<!--    //BookServiceImpl注入到IOC容器中
     <bean id="BookServiceImpl" class="com.hjj.service.BookServiceImpl">
         <property name="bookMapper" ref="bookMapper"/>
-    </bean>
+    </bean>-->
 
     <!-- 配置事务管理器 -->
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">

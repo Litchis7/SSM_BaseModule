@@ -12,7 +12,7 @@
   </head>
   <style type="text/css">
     a {
-      text-decoration: none;
+      text-decoration: none;/*取消下划线*/
       color: palevioletred;
       font-size: 18px;
     }
@@ -27,6 +27,6 @@
     }
   </style>
   <body>
-  <a href="${pageContext.request.contextPath}/book/allBook">点击进入书籍列表</a>
+  <h3><a href="${pageContext.request.contextPath}/book/allBook">点击进入书籍列表</a></h3>
   </body>
 </html>

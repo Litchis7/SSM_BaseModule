@@ -1,6 +1,7 @@
 package com.hjj.service;
 
 import com.hjj.pojo.Books;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -15,4 +16,6 @@ public interface BookService {
     Books queryBookById(int id);
     //查询全部Book,返回list集合
     List<Books> queryAllBook();
+    //根据书名查询Book，返回一个Book
+    Books queryBookByName(String bookName);
 }

@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -18,7 +19,7 @@ public class BookController {
 
 
     @Autowired
-    @Qualifier("BookServiceImpl")
+   /* @Qualifier("BookServiceImpl")*/
     private BookService bookService;
 
     @RequestMapping("/allBook")
@@ -51,10 +52,7 @@ public class BookController {
 
     @RequestMapping("/updateBook")
     public String updateBook(Model model, Books book) {
-        System.out.println(book);
         bookService.updateBook(book);
-        Books books = bookService.queryBookById(book.getBookID());
-        model.addAttribute("books", books);
         return "redirect:/book/allBook";
     }
 
@@ -63,6 +61,18 @@ public class BookController {
     public String deleteBook(@PathVariable("bookId") int id) {
         bookService.deleteBookById(id);
         return "redirect:/book/allBook";
+    }
+    @RequestMapping("/queryBook")
+    public String queryBook(String bookName,Model model){
+        Books books = bookService.queryBookByName(bookName);
+        List<Books> list = new ArrayList<Books>();
+        list.add(books);
+        if (books == null){
+            list = bookService.queryAllBook();
+            model.addAttribute("error", "未查到");
+        }
+        model.addAttribute("list", list);
+        return "allBook";
     }
 
 }
