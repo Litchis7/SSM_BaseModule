@@ -9,8 +9,19 @@
     <typeAliases>
         <package name="com.hjj.pojo"/>
     </typeAliases>
+
+    <!--引入pageHelper分页插件，注意plugin标签位置-->
+    <plugins>
+        <plugin interceptor="com.github.pagehelper.PageInterceptor">
+            <!-- config params as the following -->
+            <!--分页参数合理化-->
+            <property name="reasonable " value="true"/>
+        </plugin>
+    </plugins>
+
     <mappers>
         <mapper resource="com/hjj/dao/BookMapper.xml"/>
     </mappers>
+
 
 </configuration>

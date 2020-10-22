@@ -32,7 +32,7 @@
         <div class="col-md-4 column">
             <a class="btn btn-primary" href="${pageContext.request.contextPath}/book/toAddBook">新增</a>
             &nbsp; | &nbsp;
-            <a class="btn btn-primary" href="${pageContext.request.contextPath}/book/allBook">显示所有书籍</a>
+            <a class="btn btn-primary" href="${pageContext.request.contextPath}/book/allBook?page=1">显示所有书籍</a>
         </div>
         <div class="col-md-4 column"></div>
         <div class="col-md-4 column">
@@ -59,7 +59,7 @@
                 </thead>
 
                 <tbody>
-                <c:forEach var="book" items="${requestScope.get('list')}">
+                <c:forEach var="book" items="${pageInfo.list}">
                     <tr>
                         <td>${book.getBookID()}</td>
                         <td>${book.getBookName()}</td>
@@ -74,6 +74,38 @@
                 </c:forEach>
                 </tbody>
             </table>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            第${pageInfo.pageNum}页，共${pageInfo.pages}页，共${pageInfo.total}条记录
+        </div>
+        <div class="col-md-6 offset-md-4">
+            <nav aria-label="Page navigation example">
+                <ul class="pagination pagination-sm">
+                    <li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/book/allBook?page=1">首页</a></li>
+                    <c:if test="${pageInfo.hasPreviousPage}">
+                        <li class="page-item"><a class="page-link"
+                                                 href="${pageContext.request.contextPath}/book/allBook?page=${pageInfo.pageNum-1}">上一页</a></li>
+                    </c:if>
+                    <c:forEach items="${pageInfo.navigatepageNums}" var="page">
+                        <c:if test="${page==pageInfo.pageNum}">
+                            <li class="page-item active"><a class="page-link" href="#">${page}</a></li>
+                        </c:if>
+                        <c:if test="${page!=pageInfo.pageNum}">
+                            <li class="page-item"><a class="page-link"
+                                                     href="${pageContext.request.contextPath}/book/allBook?page=${page}">${page}</a></li>
+                        </c:if>
+                    </c:forEach>
+                    <c:if test="${pageInfo.hasNextPage}">
+                        <li class="page-item"><a class="page-link"
+                                                 href="${pageContext.request.contextPath}/book/allBook?page=${pageInfo.pageNum+1}">下一页</a></li>
+                    </c:if>
+                    <li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/book/allBook?page=${pageInfo.pages}">末页</a>
+                    </li>
+                </ul>
+            </nav>
         </div>
     </div>
 </div>

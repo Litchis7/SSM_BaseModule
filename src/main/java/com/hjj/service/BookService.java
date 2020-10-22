@@ -1,5 +1,6 @@
 package com.hjj.service;
 
+import com.github.pagehelper.PageInfo;
 import com.hjj.pojo.Books;
 import org.apache.ibatis.annotations.Param;
 
@@ -18,4 +19,7 @@ public interface BookService {
     List<Books> queryAllBook();
     //根据书名查询Book，返回一个Book
     Books queryBookByName(String bookName);
+
+    PageInfo<Books> getBooksByPage(int page,int pageSize);
+
 }

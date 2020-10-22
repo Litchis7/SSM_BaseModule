@@ -1,14 +1,19 @@
 package com.hjj.controller;
 
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.hjj.pojo.Books;
 import com.hjj.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,12 +27,12 @@ public class BookController {
    /* @Qualifier("BookServiceImpl")*/
     private BookService bookService;
 
-    @RequestMapping("/allBook")
+/*    @RequestMapping("/allBook")
     public String list(Model model) {
         List<Books> list = bookService.queryAllBook();
         model.addAttribute("list", list);
         return "allBook";
-    }
+    }*/
 
     @RequestMapping("/toAddBook")
     public String toAddPaper() {
@@ -38,7 +43,7 @@ public class BookController {
     public String addPaper(Books books) {
         System.out.println(books);
         bookService.addBook(books);
-        return "redirect:/book/allBook";
+        return "redirect:/book/allBook?page=1";
     }
 
 
@@ -53,27 +58,54 @@ public class BookController {
     @RequestMapping("/updateBook")
     public String updateBook(Model model, Books book) {
         bookService.updateBook(book);
-        return "redirect:/book/allBook";
+        return "redirect:/book/allBook?page=1";
     }
 
 
     @RequestMapping("/del/{bookId}")
     public String deleteBook(@PathVariable("bookId") int id) {
         bookService.deleteBookById(id);
-        return "redirect:/book/allBook";
+        return "redirect:/book/allBook?page=1";
     }
-    @RequestMapping("/queryBook")
+
+/*    @RequestMapping("/queryBook")
     public String queryBook(String bookName,Model model){
         Books books = bookService.queryBookByName(bookName);
         List<Books> list = new ArrayList<Books>();
-        list.add(books);
         if (books == null){
             list = bookService.queryAllBook();
             model.addAttribute("error", "未查到");
         }
+
+        list.add(books);
         model.addAttribute("list", list);
         return "allBook";
+    }*/
+
+
+    @RequestMapping("/queryBook")
+    public String queryBook(String bookName,Model model){
+        PageHelper.startPage(1,7);
+        Books books = bookService.queryBookByName(bookName);
+        List<Books> list = new ArrayList<Books>();
+        list.add(books);
+        if (books == null){
+           list = bookService.queryAllBook();
+
+            model.addAttribute("error", "未查到");
+        }
+            model.addAttribute("pageInfo", new PageInfo(list));
+
+        return "allBook";
+
     }
 
+    //分页
+    @RequestMapping("/allBook")
+    public String getBooksByPage(int page,Model model) {
+        PageInfo<Books> pageInfo = bookService.getBooksByPage(page, 4);
+        model.addAttribute("pageInfo",pageInfo);
+        return "allBook";
+    }
 }
 

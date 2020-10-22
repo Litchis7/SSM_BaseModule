@@ -27,6 +27,6 @@
     }
   </style>
   <body>
-  <h3><a href="${pageContext.request.contextPath}/book/allBook">点击进入书籍列表</a></h3>
+  <h3><a href="${pageContext.request.contextPath}/book/allBook?page=1">点击进入书籍列表</a></h3>
   </body>
 </html>
